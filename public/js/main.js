@@ -1,80 +1,327 @@
-if ($(window).width() < 1200) {
-    $('#toggle').click(function () {
-        $(this).toggleClass('active');
-        $('#overlay').toggleClass('open');
-        $('.logo-box img').toggleClass('open');
-    });
-    }
-
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
-
-function showTab(n) {
-  // This function will display the specified tab of the form...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-//   //... and fix the Previous/Next buttons:
-//   if (n == 0) {
-//     document.getElementById("prevBtn").style.display = "none";
-//   } else {
-//     document.getElementById("prevBtn").style.display = "inline";
-//   }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-//   //... and run a function that will display the correct step indicator:
-//   fixStepIndicator(n)
-}
-
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  //if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-
-// function validateForm() {
-//   // This function deals with validation of the form fields
-//   var x, y, i, valid = true;
-//   x = document.getElementsByClassName("tab");
-//   y = x[currentTab].getElementsByTagName("input");
-//   // A loop that checks every input field in the current tab:
-//   for (i = 0; i < y.length; i++) {
-//     // If a field is empty...
-//     if (y[i].value == "") {
-//       // add an "invalid" class to the field:
-//       y[i].className += " invalid";
-//       // and set the current valid status to false
-//       valid = false;
-//     }
-//   }
-//   // If the valid status is true, mark the step as finished and valid:
-//   if (valid) {
-//     document.getElementsByClassName("step")[currentTab].className += " finish";
-//   }
-//   return valid; // return the valid status
-// }
-
-// function fixStepIndicator(n) {
-//   // This function removes the "active" class of all steps...
-//   var i, x = document.getElementsByClassName("step");
-//   for (i = 0; i < x.length; i++) {
-//     x[i].className = x[i].className.replace(" active", "");
-//   }
-//   //... and adds the "active" class on the current step:
-//   x[n].className += " active";
+// if ($(window).width() < 1200) {
+
+//     $('#toggle').click(function () {
+
+//         $(this).toggleClass('active');
+
+//         $('#overlay').toggleClass('open');
+
+//         $('.logo-box img').toggleClass('open');
+
+//     });
+
+//     }
+
+var currentTab = 0;
+showTab(currentTab);
+function showTab(n) {
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  if (n == x.length - 1) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  // fixStepIndicator👎
+}
+
+function nextPrev(n) {
+  var x = document.getElementsByClassName("tab");
+  if (n == 1 && !validateForm()) return false;
+  x[currentTab].style.display = "none";
+  currentTab = currentTab + n;
+  if (currentTab >= x.length) {
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  showTab(currentTab);
+}
+
+function validateForm() {
+  obj = {};
+  var isSave = false;
+  var x = document
+    .getElementsByClassName("tab")
+    [currentTab].getElementsByTagName("input");
+
+  if (x.length > 1) {
+    fieldvalue = "";
+    if (x[0].name == "startDate") {
+      let mon, yy;
+      for (let i = 0; i < x.length; i++) {
+        fieldvalue += x[i].value;
+        if (i < 2) {
+          mon = +fieldvalue;
+          if ((i + 1) % 2 == 0) fieldvalue += "-";
+        } else yy += x[i].value;
+      }
+      yy = +yy;
+      if (mon <= 0 || mon > 12 || yy > 2023) {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+        y[0].innerHTML =
+          " Error! Please enter months between 1 to 12 only/ Please enter the year before 2023. ";
+        y[0].style.display = "block";
+        return false;
+      }
+    }
+    if (x[0].name == "zipCode") {
+      for (let i = 0; i < x.length; i++) {
+        fieldvalue += x[i].value;
+      }
+    }
+
+    obj[x[0].name] = fieldvalue;
+  } else {
+    obj[x[0].name] = x[0].value;
+  }
+  console.log(obj);
+  if (isfieldokay()) {
+    $.ajax({
+      type: "POST",
+      url: "/modifyformvalue",
+      data: obj,
+      cache: false,
+      async: false,
+      enctype: "multipart/form-data",
+      processData: false,
+      success: function (data, textStatus, xhr) {
+        console.log(xhr.status);
+        if (xhr.status == 201) {
+          isSave = true;
+          console.log(data);
+        } else {
+          isSave = false;
+        }
+      },
+    });
+  }
+  return isSave;
+}
+
+function isfieldokay() {
+  var x = document
+    .getElementsByClassName("tab")
+    [currentTab].getElementsByTagName("input");
+
+  flag = true;
+  switch (x[0].name) {
+    case "fullName":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your full name ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "cmpName":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+        console.log(y[0]);
+        y[0].innerHTML = "Please enter your company name";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+
+    case "industry":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+        console.log(y[0]);
+        y[0].innerHTML = "Please select your business industry";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "cmpType":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+        console.log(y[0]);
+        y[0].innerHTML = "Please select your entity type.";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "startDate":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your business start date";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "zipCode":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your zip code ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "loanAmount":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter the requested loan amount";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "annualRevenue":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = " Please enter your annual revenue";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "creditScore":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please select your credit score";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "purposeOfLone":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter the purpose of your loan";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "phone":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your phone number ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "email":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your email address ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "ssn":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your SSN. ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "website":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your website. ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "taxId":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Please enter your Tax ID ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+
+    case "drivinLicense":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Kindly upload your drivers license ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "voided":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Kindly upload your voided check ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+    case "bankStatemets":
+      if (x[0].value == "") {
+        var y = document
+          .getElementsByClassName("tab")
+          [currentTab].getElementsByTagName("h5");
+
+        y[0].innerHTML = "Kindly upload previous 3 months bank statements ";
+        y[0].style.display = "block";
+        flag = false;
+      }
+      break;
+
+    default:
+      flag = true;
+  }
+  return flag;
+}
+
+// if (x[0].value == "") {
+//   var y = document
+//     .getElementsByClassName("tab")
+//     [currentTab].getElementsByTagName("h5");
+//   console.log(y[0]);
+//   y[0].innerHTML = `${x[0].name} value sould not be empty`;
+//   y[0].style.display = "block";
+//   return false;
 // }
+// return true;

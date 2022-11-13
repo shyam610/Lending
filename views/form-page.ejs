@@ -14,14 +14,24 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="css/common.css" />
-
     <link rel="stylesheet" href="css/custom.css" />
     <link rel="stylesheet" href="css/responsive.css" />
     <title>Lending Hat</title>
+    <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+    </style>
   </head>
+
   <body class="full-width">
     <header class="bt">
       <div class="new-container">
@@ -41,7 +51,6 @@
         </div>
       </div>
     </header>
-
     <div class="banner-section form-banner">
       <div class="new-container">
         <div class="heading-box">
@@ -49,37 +58,313 @@
           <h5>Simple, Smarter Technology for higher approval</h5>
         </div>
         <div class="white-form-section">
-          <form action="">
-            <fieldset class="showfieldset">
+          <form action="/create-account" id="regForm">
+            <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter Your Full Name</h3>
-              <input type="text" placeholder="" />
+              <input type="text" name="fullName" placeholder="" />
+              <h5 style="color: red; display: none"></h5>
               <p>
                 Just answer a few questions to see your options. It’s free &
                 won’t impact your credit score.
               </p>
+              <span class="errormsg"></span>
             </fieldset>
 
-            <fieldset>
+            <fieldset class="tab">
               <div class="bar"></div>
-              <h3>Enter Your company Name</h3>
-              <input type="text" placeholder="" />
+              <h3>Enter Your Company Name</h3>
+              <input type="text" name="cmpName" placeholder="" />
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                You might have a great brand name in your mind, type it here.
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Select Your Business Industry</h3>
+              <input
+                type="text"
+                name="industry"
+                placeholder="Select from the following list"
+              />
+              <h5 style="color: red; display: none"></h5>
+              <p>Your industry helps us better recommend relevant partners.</p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Select Your Entry Type</h3>
+              <input
+                type="text"
+                name="cmpType"
+                placeholder="Select from the following list"
+              />
+              <h5 style="color: red; display: none"></h5>
+              <p>Select the type of company you wish to form.</p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter Your Business Start Date</h3>
+              <!-- <div>
+                <input type="date" name="startDate" /> -->
+              <div class="flex-box">
+                <input
+                  type="number"
+                  name="startDate"
+                  placeholder="M"
+                  class="sm"
+                />
+                <input type="number" placeholder="M" class="sm" />
+                <hr />
+                <input type="number" placeholder="Y" class="sm" />
+                <input type="number" placeholder="Y" class="sm" />
+                <input type="number" placeholder="Y" class="sm" />
+                <input type="number" placeholder="Y" class="sm" />
+              </div>
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                Please fill in the loan amount you are looking for to make your
+                business go live.
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter Your Business Zip Code</h3>
+              <div class="flex-box space">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="col-3"
+                  name="zipCode"
+                />
+                <input type="text" placeholder="" class="col-3" />
+                <input type="text" placeholder="" class="col-3" />
+                <input type="text" placeholder="" class="col-3" />
+              </div>
+              <h5 style="color: red; display: none"></h5>
               <p>
                 Just answer a few questions to see your options. It’s free &
                 won’t impact your credit score.
               </p>
             </fieldset>
 
-            <button class="next action-button">Continue</button>
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter your Request Loan Amount</h3>
+              <input type="number" name="loanAmount" placeholder="$" />
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                Please fill in the loan amount you are looking for to make your
+                business go live.
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter your Annual Revenue</h3>
+              <input type="text" name="annualRevenue" placeholder="$" />
+              <h5 style="color: red; display: none"></h5>
+              <p>Take an average of your last few months</p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Select Your Credit Score</h3>
+              <div class="selector">
+                <div class="selecotr-item">
+                  <input
+                    type="radio"
+                    id="radio1"
+                    value="Poor (639 or less)"
+                    name="creditScore"
+                    class="selector-item_radio"
+                    checked
+                  />
+                  <label for="radio1" class="selector-item_label"
+                    >Poor (639 or less)</label
+                  >
+                </div>
+                <div class="selecotr-item">
+                  <input
+                    type="radio"
+                    id="radio2"
+                    value="Fair (640-679)"
+                    name="creditScore"
+                    class="selector-item_radio"
+                    checked
+                  />
+                  <label for="radio2" class="selector-item_label"
+                    >Fair (640-679)</label
+                  >
+                </div>
+                <div class="selecotr-item">
+                  <input
+                    type="radio"
+                    id="radio3"
+                    name="creditScore"
+                    value="Good (680-719)"
+                    class="selector-item_radio"
+                    checked
+                  />
+                  <label for="radio3" class="selector-item_label"
+                    >Good (680-719)</label
+                  >
+                </div>
+                <div class="selecotr-item">
+                  <input
+                    type="radio"
+                    id="radio4"
+                    name="creditScore"
+                    value="720+"
+                    class="selector-item_radio"
+                    checked
+                  />
+                  <label for="radio4" class="selector-item_label"
+                    >Excellent (720+)</label
+                  >
+                </div>
+              </div>
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                Rest assured, checking rates won't impact your credit score.
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter your Purpose of Loan</h3>
+              <input name="purposeOfLone" />
+              <!-- <select name="purposeOfLone" id="purposeOfLone">
+                <option value="" disabled>-------</option>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="fiat">Fiat</option>
+                <option value="audi">Audi</option>
+              </select> -->
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                This helps us match you to the right funding options for your
+                business.
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter your Phone Number</h3>
+              <input type="text" name=" phone" placeholder="(+1)" />
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                We may call you at this number to discuss your personalized loan
+                options
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Upload Your Driving License</h3>
+              <div class="file-box">
+                <input
+                  type="file"
+                  name="drivinLicense"
+                  placeholder="Choose Your File"
+                  class="file"
+                />
+              </div>
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                We may email you at this address with next steps on your loan
+                options
+              </p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Upload Previous 3 Months Bank Statements</h3>
+              <div class="file-box">
+                <input
+                  type="file"
+                  name="bankStatemets"
+                  placeholder="Choose Your File"
+                  class="file"
+                />
+              </div>
+              <h5 style="color: red; display: none"></h5>
+              <p>Following file type is applicable in .jpeg .png or pdf</p>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Upload Your Voided Check</h3>
+              <div class="file-box">
+                <input
+                  type="file"
+                  name="voided"
+                  placeholder="Choose Your File"
+                  class="file"
+                />
+              </div>
+              <h5 style="color: red; display: none"></h5>
+              <p>The check should be self-attested by the account holder.</p>
+            </fieldset>
+
+            <fieldset class="encryption tab">
+              <div class="bar"></div>
+              <h3>Enter Your SSN (243 bit encryption)</h3>
+              <input type="text" name="ssn" placeholder="Enter Your Number" />
+              <h5 style="color: red; display: none"></h5>
+              <p>
+                Prevent eavesdropping and ensure the security of data
+                transmitted over the Internet.
+              </p>
+              <img src="img/bit-icon.png" alt="" class="mobile-img" />
+            </fieldset>
+
+            <fieldset class="website tab">
+              <div class="bar"></div>
+              <h3>Enter Your Website</h3>
+              <input
+                type="text"
+                name="website"
+                placeholder="Type your website"
+              />
+              <h5 style="color: red; display: none"></h5>
+            </fieldset>
+
+            <fieldset class="tab">
+              <div class="bar"></div>
+              <h3>Enter Your Tax ID #</h3>
+              <input type="text" name="taxId" placeholder="Type your ID" />
+            </fieldset>
+
+            <!-- type="submit" -->
+            <button
+              type="button"
+              class="next action-button"
+              id="nextBtn"
+              onclick="nextPrev(1)"
+            >
+              Continue
+            </button>
           </form>
+          <!-- <button  class="next action-button"  id="nextBtn">Continue</button> -->
+
+          <div class="thanks-box">
+            <img src="img/thanks.png" alt="" />
+            <h4>
+              <strong>Thanks for your submission</strong> and we will get back
+              to you with best offer
+            </h4>
+          </div>
         </div>
       </div>
       <button type="submit" class="next action-button mobile-btn">
         Continue
       </button>
     </div>
-
-    <!-- <button  id="link-button">click</button> -->
 
     <div class="desktop-screen">
       <div class="application-section com-padding">
@@ -168,7 +453,8 @@
         <div class="new-container">
           <div class="heading-box">
             <h2>
-              Loved by the community, <span>900,000 members and counting</span>
+              Loved by the community,
+              <span>900,000 members and counting</span>
             </h2>
             <p>
               As a lending hat member, you'll get access to exclusive benefits
@@ -231,134 +517,7 @@
       </div>
       <div class="blue-bar-section"></div>
     </div>
-
-    <!-- <script type="text/javascript">
-        (function($) {
-          var handler = Plaid.create({
-            clientName: "Plaid Quickstart", 
-            countryCodes: ["US"],
-            env: "sandbox", 
-            key: "067daf1cd400ac6ef1e15d35f6edb5",
-            product: ["transactions"], 
-            webhook: "https://requestb.in", 
-            language: "en", 
-            userLegalName: "John Appleseed",
-            userEmailAddress: "jappleseed@yourapp.com",
-            onLoad: function() {
-           },
-            onSuccess: function(public_token, metadata) {
-              console.log(public_token)
-              $.post("/plaid_token_exchange", {
-                publicToken: public_token
-              });
-            },
-            onExit: function(err, metadata) {
-              if (err != null) {
-               }
-              },
-  
-            onEvent: function(eventName, metadata) {
-  
-            }
-          });
-  
-          $("#link-button").on("click", function(e) {
-            handler.open();
-          });
-        })(jQuery);
-      </script>
-   -->
-
-    <script>
-      $(".action-button").click((e) => {
-        alert();
-      });
-
-      $(".next").click(function () {
-        var form = $("#myform");
-        form.validate({
-          errorElement: "span",
-          errorClass: "help-block",
-          highlight: function (element, errorClass, validClass) {
-            $(element).closest(".form-group").addClass("has-error");
-          },
-          unhighlight: function (element, errorClass, validClass) {
-            $(element).closest(".form-group").removeClass("has-error");
-          },
-          rules: {
-            username: {
-              required: true,
-              usernameRegex: true,
-              minlength: 6,
-            },
-            password: {
-              required: true,
-            },
-            conf_password: {
-              required: true,
-              equalTo: "#password",
-            },
-            company: {
-              required: true,
-            },
-            url: {
-              required: true,
-            },
-            name: {
-              required: true,
-              minlength: 3,
-            },
-            email: {
-              required: true,
-              minlength: 3,
-            },
-          },
-          messages: {
-            username: {
-              required: "Username required",
-            },
-            password: {
-              required: "Password required",
-            },
-            conf_password: {
-              required: "Password required",
-              equalTo: "Password don't match",
-            },
-            name: {
-              required: "Name required",
-            },
-            email: {
-              required: "Email required",
-            },
-          },
-        });
-        if (form.valid() === true) {
-          if ($("#account_information").is(":visible")) {
-            current_fs = $("#account_information");
-            next_fs = $("#company_information");
-          } else if ($("#company_information").is(":visible")) {
-            current_fs = $("#company_information");
-            next_fs = $("#personal_information");
-          }
-
-          next_fs.show();
-          current_fs.hide();
-        }
-      });
-
-      $("#previous").click(function () {
-        if ($("#company_information").is(":visible")) {
-          current_fs = $("#company_information");
-          next_fs = $("#account_information");
-        } else if ($("#personal_information").is(":visible")) {
-          current_fs = $("#personal_information");
-          next_fs = $("#company_information");
-        }
-        next_fs.show();
-        current_fs.hide();
-      });
-
-      // $('.white-form-section fieldset').css('display')
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
