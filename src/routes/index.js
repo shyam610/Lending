@@ -4,14 +4,13 @@ const {
   registeration,
   setField,
   getField,
+  formPage,
 } = require("../module/user/user.controller");
 const upload = require("../helper/upload");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("form-page");
-});
+router.get("/", formPage);
 
 router.get(
   "/create-account",

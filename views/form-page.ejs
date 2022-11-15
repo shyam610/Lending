@@ -62,7 +62,13 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter Your Full Name</h3>
-              <input type="text" name="fullName" placeholder="" />
+
+              <input
+                type="text"
+                value="<%= user.fullName %>"
+                name="fullName"
+                placeholder=""
+              />
               <h5 style="color: red; display: none"></h5>
               <p>
                 Just answer a few questions to see your options. It’s free &
@@ -74,7 +80,12 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter Your Company Name</h3>
-              <input type="text" name="cmpName" placeholder="" />
+              <input
+                type="text"
+                name="cmpName"
+                placeholder=""
+                value="<%= user.cmpName %>"
+              />
               <h5 style="color: red; display: none"></h5>
               <p>
                 You might have a great brand name in your mind, type it here.
@@ -87,6 +98,7 @@
               <input
                 type="text"
                 name="industry"
+                value="<%= user.industry %>"
                 placeholder="Select from the following list"
               />
               <h5 style="color: red; display: none"></h5>
@@ -99,6 +111,7 @@
               <input
                 type="text"
                 name="cmpType"
+                value="<%= user.cmpType %>"
                 placeholder="Select from the following list"
               />
               <h5 style="color: red; display: none"></h5>
@@ -140,6 +153,7 @@
                   placeholder=""
                   class="col-3"
                   name="zipCode"
+                  value="<%= user.zipCode %>"
                 />
                 <input type="text" placeholder="" class="col-3" />
                 <input type="text" placeholder="" class="col-3" />
@@ -155,7 +169,12 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter your Request Loan Amount</h3>
-              <input type="number" name="loanAmount" placeholder="$" />
+              <input
+                type="number"
+                name="loanAmount"
+                placeholder="$"
+                value="<%= user.loanAmount %>"
+              />
               <h5 style="color: red; display: none"></h5>
               <p>
                 Please fill in the loan amount you are looking for to make your
@@ -166,7 +185,12 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter your Annual Revenue</h3>
-              <input type="text" name="annualRevenue" placeholder="$" />
+              <input
+                type="text"
+                name="annualRevenue"
+                placeholder="$"
+                value="<%= user.annualRevenue %>"
+              />
               <h5 style="color: red; display: none"></h5>
               <p>Take an average of your last few months</p>
             </fieldset>
@@ -237,7 +261,7 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter your Purpose of Loan</h3>
-              <input name="purposeOfLone" />
+              <input name="purposeOfLone" value="<%= user.purposeOfLone %>" />
               <!-- <select name="purposeOfLone" id="purposeOfLone">
                 <option value="" disabled>-------</option>
                 <option value="volvo">Volvo</option>
@@ -255,7 +279,12 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter your Phone Number</h3>
-              <input type="text" name=" phone" placeholder="(+1)" />
+              <input
+                type="text"
+                name="phone"
+                placeholder="(+1)"
+                value="<%= user.phone %>"
+              />
               <h5 style="color: red; display: none"></h5>
               <p>
                 We may call you at this number to discuss your personalized loan
@@ -314,7 +343,12 @@
             <fieldset class="encryption tab">
               <div class="bar"></div>
               <h3>Enter Your SSN (243 bit encryption)</h3>
-              <input type="text" name="ssn" placeholder="Enter Your Number" />
+              <input
+                type="text"
+                name="ssn"
+                placeholder="Enter Your Number"
+                value="<%= user.ssn %>"
+              />
               <h5 style="color: red; display: none"></h5>
               <p>
                 Prevent eavesdropping and ensure the security of data
@@ -330,6 +364,7 @@
                 type="text"
                 name="website"
                 placeholder="Type your website"
+                value="<%= user.website %>"
               />
               <h5 style="color: red; display: none"></h5>
             </fieldset>
@@ -337,7 +372,12 @@
             <fieldset class="tab">
               <div class="bar"></div>
               <h3>Enter Your Tax ID #</h3>
-              <input type="text" name="taxId" placeholder="Type your ID" />
+              <input
+                type="text"
+                name="taxId"
+                placeholder="Type your ID"
+                value="<%= user.taxId %>"
+              />
             </fieldset>
 
             <!-- type="submit" -->

@@ -74,9 +74,20 @@ function validateForm() {
     }
 
     obj[x[0].name] = fieldvalue;
-  } else {
-    obj[x[0].name] = x[0].value;
   }
+  // else if (x[0].type == "file") {
+  //   const name = x[0].name;
+  //   const files = x[0].value;
+  //   const formData = new FormData();
+  //   console.log(files);
+  //   //formData.append(  name, name.value);
+  //   for (let i = 0; i < files.files.length; i++) {
+  //     formData.append(name, files.files[i]);
+  //   }
+  //   obj = formData;
+  // }
+  else obj[x[0].name] = x[0].value;
+
   console.log(obj);
   if (isfieldokay()) {
     $.ajax({
@@ -85,8 +96,6 @@ function validateForm() {
       data: obj,
       cache: false,
       async: false,
-      enctype: "multipart/form-data",
-      processData: false,
       success: function (data, textStatus, xhr) {
         console.log(xhr.status);
         if (xhr.status == 201) {

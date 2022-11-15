@@ -4,6 +4,59 @@ const enquiry = require("../../model/enquiry");
 const User = require("../../model/User");
 const { pdfConverter } = require("../../helper/pdfService");
 
+exports.formPage = async (req, res) => {
+  try {
+    const isEnquiry = await enquiry.findOne();
+
+    const {
+      fullName,
+      cmpName,
+      industry,
+      cmpType,
+      startDate,
+      zipCode,
+      loanAmount,
+      annualRevenue,
+      creditScore,
+      purposeOfLone,
+      phone,
+      email,
+      ssn,
+      website,
+      taxId,
+      drivinLicense,
+      voided,
+      bankStatemets,
+    } = isEnquiry;
+    //console.log(isEnquiry);
+    const user = {
+      fullName,
+      cmpName,
+      industry,
+      cmpType,
+      startDate,
+      zipCode,
+      loanAmount,
+      annualRevenue,
+      creditScore,
+      purposeOfLone,
+      phone,
+      email,
+      ssn,
+      website,
+      taxId,
+      drivinLicense,
+      voided,
+      bankStatemets,
+    };
+    //console.log(user);
+    res.render("form-page.ejs", {
+      user,
+    });
+  } catch (error) {
+    return res.status(401).send({ error: error.message });
+  }
+};
 exports.registeration = async (req, res) => {
   try {
     // const {
@@ -47,9 +100,10 @@ exports.registeration = async (req, res) => {
     //   voided,
     //   bankStatemets,
     // });
+    //console.log(req.query);
     const isCreated = await enquiry.findOne({});
     if (!isCreated) throw new Error(messages.FAILED_TO_FETCH);
-    const pdfPath = `./uploads/pdf/${isCreated.email}.pdf`;
+    const pdfPath = `./uploads/pdf/${isCreated.fullName}.pdf`;
 
     await pdfConverter({ userDetails: isCreated }, pdfPath);
 
@@ -88,7 +142,7 @@ exports.registeration = async (req, res) => {
 module.exports.setField = async function (req, res) {
   try {
     const isRecord = await enquiry.findOne({});
-    console.log(req.files);
+    console.log(req.body);
     if (!isRecord) {
       await enquiry.create(req.body);
     } else {
@@ -96,7 +150,7 @@ module.exports.setField = async function (req, res) {
       field.step = isRecord.step + 1;
       await enquiry.updateOne({ $set: field });
     }
-    console.log(req.body);
+    // console.log(req.body);
     res.status(201).send({ message: Messages.REQUEST_SUCCESS, data: req.body });
   } catch (error) {
     console.log(error);
